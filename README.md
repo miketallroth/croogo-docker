@@ -30,3 +30,6 @@ To access the Croogo root directory via shell,
 docker exec -it croogo /bin/bash
 ```
 Substitute croogo if you named your container something else.
+
+## Contribute
+Pull Requests are welcome at (Github)[https://github.com/miketallroth/croogo-docker]
