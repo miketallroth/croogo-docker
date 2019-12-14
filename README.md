@@ -1,5 +1,5 @@
 # Croogo
-**Croogo** is a free, open source, content management system for PHP, released under [MIT License](http://github.com/croogo/croogo/blob/master/LICENSE.txt).
+[**Croogo**](https://croogo.org) is a free, open source, content management system for PHP, released under [MIT License](http://github.com/croogo/croogo/blob/master/LICENSE.txt).
 This docker image will deploy the Croogo CMS using a Sqlite database fully encapsulated within a single Docker container. It should be used for experimentation and demo purposes only. It has not been tested for production deployment.
 
 # How to use this image
@@ -32,4 +32,4 @@ docker exec -it croogo /bin/bash
 Substitute croogo if you named your container something else.
 
 ## Contribute
-Pull Requests are welcome at (Github)[https://github.com/miketallroth/croogo-docker]
+Pull Requests are welcome at [Github](https://github.com/miketallroth/croogo-docker)

@@ -25,7 +25,7 @@ RUN	COMPOSER_HASH=32ab9260d00d792106f1e43a9ed332ec1c05d5d2 && \
 WORKDIR /var/www
 
 # create croogo project
-RUN	composer create-project --prefer-source --no-interaction croogo/app html 4.0.1
+RUN	composer create-project --prefer-source --no-interaction croogo/app html 4.0.2
 
 # Copy the current directory contents into the container one up from docroot
 COPY dbin /var/www/bin
@@ -33,8 +33,8 @@ COPY dbin /var/www/bin
 # update working dir now that project is created
 WORKDIR /var/www/html
 
-# configure croogo database for sqlite
-RUN	../bin/configure.sh
+# install croogo
+RUN	../bin/install.sh
 
 # Run entrypoint when the container launches
 CMD ["../bin/entrypoint.sh"]

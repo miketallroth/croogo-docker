@@ -1,17 +1,14 @@
 #!/bin/bash
 
-# automatic http install using wget
-#   get url that would appear as "proceed with valid database config"
-token=`wget localhost/install/install/data --keep-session-cookies --save-cookies cookies.txt -O - | grep -e _csrfToken | sed 's/^.*\(autocomplete\).*value=\"\([0-9a-f]*\)\".*$/\2/'`
-echo ${token}
+# change perms - prep for install
+chmod -R a+w tmp/ ; chmod -R a+w logs/ ; chmod -R a+w config/
 
-#   post a form for the admin user, user/pass=croogo/croogo
-#   _method=PUT
-#   _csrfToken='from sed'
-#   username=croogo
-#   password=croogo
-#   verify_password=croogo
-wget localhost/install/install/admin-user --load-cookies cookies.txt -O /dev/null --post-data="_method=PUT&username=croogo&password=croogo&verify_password=croogo&_csrfToken=${token}"
+# automatic cli install
+# using 'b' as short for 'blank', as these options are unneeded for sqlite
+bin/cake croogo/install.install -d Sqlite -h b -u b -p b -t b -n /var/www/html/croogo4.db croogo croogo
 
+# run individually to clean up the acl's
+bin/cake acl_extras aco_update
 
-rm cookies.txt
+# change perms - prep for use
+chmod -R a+w tmp/ ; chmod -R a+w logs/ ; chmod -R a+w config/ ; chmod a+w croogo4.db
