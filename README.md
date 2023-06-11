@@ -32,14 +32,9 @@ docker exec -it croogo /bin/bash
 Substitute croogo if you named your container something else.
 
 ## Versions
-Croogo uses semantic versioning. This repository follows that, except that it adds one extra number to differentiate the different demo builds for a given Croogo release. No new features will be added to a given release via this mechanism, but some things may be broken in the demo, based on the installation process, so subsequent builds within the same patch number will simply change the install process.
+Croogo uses semantic versioning. This repository follows that, except that it adds a build number to differentiate different builds for a given Croogo release. No new features will be added via this mechanism, but rather to simply correct errors in the build, based on the installation process, so subsequent builds within the same major.minor.patch number will simply change the install process.
 
-  * croogo-docker 4.0.7.0 refers to
-    * croogo-app 4.0.7 refers to
-      * croogo 4.0.7
-  * croogo-docker 4.0.7.1 refers to
-    * croogo-app 4.0.7 refers to
-      * croogo 4.0.7
+Any 4.0.7-n build in this repo utilize Croogo 4.0.7 regardless of any subsequent commits to the croogo-app or croogo repositories.
 
 ## Contribute
 Pull Requests are welcome at [Github](https://github.com/miketallroth/croogo-docker)
