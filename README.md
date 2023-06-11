@@ -8,7 +8,7 @@ This docker image will deploy the Croogo CMS using a Sqlite database fully encap
 Select an unused port to publish Croogo. This example uses 7080.
 If you will access the shell, naming the container is a good idea. This example uses "croogo".
 ```
-docker run -p 7080:80 --name croogo miketallroth/croogo
+docker run -p 7080:80 --name croogo miketallroth/croogo-demo
 ```
 
 ## Try out Croogo CMS!
@@ -32,7 +32,7 @@ docker exec -it croogo /bin/bash
 Substitute croogo if you named your container something else.
 
 ## Versions
-Croogo uses semantic versioning. This repository follows that, except that it adds a build number to differentiate different builds for a given Croogo release. No new features will be added via this mechanism, but rather to simply correct errors in the build, based on the installation process, so subsequent builds within the same major.minor.patch number will simply change the install process.
+Croogo uses semantic versioning. This repository follows that, except that it adds a build number to differentiate different builds for a given Croogo release. No new features will be added via this mechanism, but rather to simply correct errors in the build, based on the installation process, so subsequent builds within the same major.minor.patch number will simply change the install process of the demo.
 
 Any 4.0.7-n build in this repo utilize Croogo 4.0.7 regardless of any subsequent commits to the croogo-app or croogo repositories.
 
