@@ -7,7 +7,7 @@ name: Docker Publish
 
 on:
   push:
-    tags: [ '*.*.*.*' ]
+    tags: [ '*.*.*-*' ]
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: miketallroth/croogo-demo
-          tags: type=semver,pattern={{version}}
+          tags: {{raw}}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
