@@ -1,40 +1,37 @@
-# start with official php image
-FROM php:7.3.11-apache
+# single container docker build for demo deployment
 
-# composer needs unzip and libicu-dev
-# using sqlite for croogo install
-# using vim for debugging
-# croogo needs php intl extension
-# cakephp needs apache mod rewrite
-RUN	apt-get update && apt-get install -y \
-		unzip \
-		libicu-dev \
-		sqlite \
-		git \
-		wget \
-		vim && \
-	docker-php-ext-install intl && \
-	a2enmod rewrite && \
-	apt-get clean
+# start with 7.4 apache image with extensions for cake dev
+FROM goclearsky/php-dev:7.4-apache
 
-# install composer version 1.9.1
-RUN	COMPOSER_HASH=32ab9260d00d792106f1e43a9ed332ec1c05d5d2 && \
-	curl https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_HASH/web/installer -o - -s | php -- --quiet --install-dir=/usr/bin --filename=composer
-
-# Set the working directory to docroot
 WORKDIR /var/www
 
-# create croogo project
-RUN	composer create-project --prefer-source --no-interaction croogo/app html 4.0.4
+# composer create project and install
+RUN composer1 create-project --no-dev --no-interaction croogo/app html 4.0.7 \
+    && cd html \
+    && composer1 install --no-interaction \
+    && composer1 run-script post-install-cmd --no-interaction \
+    && composer1 dump-autoload -o \
+    && composer1 clear-cache
 
-# Copy the current directory contents into the container one up from docroot
-COPY dbin /var/www/bin
-
-# update working dir now that project is created
+# update working dir now that project is created and installed
 WORKDIR /var/www/html
 
-# install croogo
-RUN	../bin/install.sh
+# change perms - prep for install
+RUN mkdir -p tmp/database \
+    && chmod -R a+w tmp/ logs/ config/
 
-# Run entrypoint when the container launches
-CMD ["../bin/entrypoint.sh"]
+# croogo cms install, then clean up acl's
+# using 'b' as short for 'blank', as these options are unneeded for sqlite
+# enclosing directory of the sqlite file AND the file itself must be writable by web server (and cli as necessary)
+RUN bin/cake croogo/install.install -d Sqlite -h b -u b -p b -t b -n /var/www/html/tmp/database/croogo4.db croogo croogo \
+    && bin/cake acl_extras aco_update
+
+# copy in the config files
+COPY config/routes.php config/routes.php
+COPY config/admin-fix.sql config/admin-fix.sql
+
+# fix the admin user's role_id
+RUN sqlite3 tmp/database/croogo4.db < "config/admin-fix.sql"
+
+# change perms - prep for use
+RUN chmod -R a+w tmp/ logs/ config/ 
