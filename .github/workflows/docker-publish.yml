@@ -7,7 +7,7 @@ name: Docker Publish
 
 on:
   push:
-    tags: [ 'v*.*.*.*' ]
+    tags: [ '*.*.*.*' ]
 
 jobs:
   build:
